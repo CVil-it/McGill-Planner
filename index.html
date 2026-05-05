@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>McGill Degree Planner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        h1 { color: #ED1B2F; }
+        .course {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .credits {
+            margin-left: auto;
+            color: #888;
+            font-size: 0.9em;
+        }
+        #summary {
+            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>McGill Degree Planner</h1>
+    <h2>Computer Science — Required Courses</h2>
+
+    <div id="course-list">
+        <div class="course">
+            <input type="checkbox" data-credits="3" onchange="updateCredits()">
+            <span>COMP 202 — Foundations of Programming</span>
+            <span class="credits">3 credits</span>
+        </div>
+        <div class="course">
+            <input type="checkbox" data-credits="3" onchange="updateCredits()">
+            <span>COMP 250 — Introduction to Computer Science</span>
+            <span class="credits">3 credits</span>
+        </div>
+        <div class="course">
+            <input type="checkbox" data-credits="3" onchange="updateCredits()">
+            <span>COMP 251 — Algorithms and Data Structures</span>
+            <span class="credits">3 credits</span>
+        </div>
+        <div class="course">
+            <input type="checkbox" data-credits="3" onchange="updateCredits()">
+            <span>COMP 302 — Programming Languages and Paradigms</span>
+            <span class="credits">3 credits</span>
+        </div>
+        <div class="course">
+            <input type="checkbox" data-credits="3" onchange="updateCredits()">
+            <span>COMP 310 — Operating Systems</span>
+            <span class="credits">3 credits</span>
+        </div>
+    </div>
+
+    <div id="summary">Credits completed: 0 / 15</div>
+
+    <script>
+        function updateCredits() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            let completed = 0;
+            let total = 0;
+            checkboxes.forEach(box => {
+                const credits = parseInt(box.dataset.credits);
+                total += credits;
+                if (box.checked) completed += credits;
+            });
+            document.getElementById('summary').textContent =
+                `Credits completed: ${completed} / ${total}`;
+        }
+    </script>
+</body>
+</html>
