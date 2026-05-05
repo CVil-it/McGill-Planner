@@ -1,0 +1,47 @@
+{
+  "cs": {
+    "name": "Computer Science (BSc)",
+    "faculty": "Science",
+    "totalRequired": 63,
+    "courses": [
+      { "code": "COMP 202", "name": "Foundations of Programming", "credits": 3 },
+      { "code": "COMP 250", "name": "Introduction to Computer Science", "credits": 3 },
+      { "code": "COMP 251", "name": "Algorithms and Data Structures", "credits": 3 },
+      { "code": "COMP 273", "name": "Introduction to Computer Systems", "credits": 3 },
+      { "code": "COMP 302", "name": "Programming Languages and Paradigms", "credits": 3 },
+      { "code": "COMP 310", "name": "Operating Systems", "credits": 3 },
+      { "code": "COMP 330", "name": "Theory of Computation", "credits": 3 },
+      { "code": "COMP 360", "name": "Algorithm Design", "credits": 3 }
+    ]
+  },
+  "math": {
+    "name": "Mathematics (BSc)",
+    "faculty": "Science",
+    "totalRequired": 60,
+    "courses": [
+      { "code": "MATH 133", "name": "Linear Algebra and Geometry", "credits": 3 },
+      { "code": "MATH 141", "name": "Calculus 2", "credits": 4 },
+      { "code": "MATH 222", "name": "Calculus 3", "credits": 3 },
+      { "code": "MATH 235", "name": "Algebra 1", "credits": 3 },
+      { "code": "MATH 251", "name": "Honours Algebra 2", "credits": 3 },
+      { "code": "MATH 255", "name": "Honours Analysis 1", "credits": 3 },
+      { "code": "MATH 325", "name": "Ordinary Differential Equations", "credits": 3 },
+      { "code": "MATH 356", "name": "Honours Probability", "credits": 3 }
+    ]
+  },
+  "biology": {
+    "name": "Biology (BSc)",
+    "faculty": "Science",
+    "totalRequired": 60,
+    "courses": [
+      { "code": "BIOL 112", "name": "Cell and Molecular Biology", "credits": 3 },
+      { "code": "BIOL 200", "name": "Molecular Biology", "credits": 3 },
+      { "code": "BIOL 201", "name": "Cell Biology and Metabolism", "credits": 3 },
+      { "code": "BIOL 202", "name": "Basic Genetics", "credits": 3 },
+      { "code": "CHEM 110", "name": "General Chemistry 1", "credits": 3 },
+      { "code": "CHEM 120", "name": "General Chemistry 2", "credits": 3 },
+      { "code": "PHYS 101", "name": "Introductory Physics", "credits": 3 },
+      { "code": "BIOL 300", "name": "Biostatistics", "credits": 3 }
+    ]
+  }
+}
