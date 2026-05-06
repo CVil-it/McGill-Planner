@@ -1,7 +1,5 @@
 # McGill-Planner
 
-# McGill Planner 🎓
-
 A lightweight, browser-based degree planning tool for McGill University students. Track your required courses, monitor your credit progress, and estimate your GPA — all in one place, with no account or login required.
 
 **Live site:** [cvil-it.github.io/McGill-Planner](https://cvil-it.github.io/McGill-Planner/)
