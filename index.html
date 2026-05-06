@@ -6,7 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 600px;
+            max-width: 650px;
             margin: 40px auto;
             padding: 0 20px;
         }
@@ -23,9 +23,7 @@
             margin-bottom: 12px;
             align-items: center;
         }
-        .row select, .row input {
-            flex: 1;
-        }
+        .row select, .row input { flex: 1; }
         button {
             padding: 8px 16px;
             font-size: 0.95em;
@@ -57,29 +55,66 @@
             padding: 10px;
             border-bottom: 1px solid #eee;
         }
-        .credits {
-            margin-left: auto;
-            color: #888;
-            font-size: 0.9em;
+        .course-info { flex: 1; }
+        .credits { color: #888; font-size: 0.9em; white-space: nowrap; }
+        .grade-select {
+            font-size: 0.85em;
+            padding: 3px 6px;
+            width: auto;
+            display: none;
+        }
+
+        /* Progress bar */
+        #progress-container {
+            margin-top: 20px;
+            display: none;
+        }
+        #progress-bar-track {
+            background: #eee;
+            border-radius: 999px;
+            height: 16px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        #progress-bar-fill {
+            background: #ED1B2F;
+            height: 100%;
+            width: 0%;
+            border-radius: 999px;
+            transition: width 0.3s ease;
         }
         #summary {
-            margin-top: 20px;
-            font-size: 1.1em;
-            font-weight: bold;
+            font-size: 1em;
+            color: #444;
         }
-        #save-status {
+
+        /* GPA */
+        #gpa-container {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            display: none;
+        }
+        #gpa-display {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #ED1B2F;
+        }
+        #gpa-label {
             font-size: 0.85em;
             color: #888;
-            margin-top: 4px;
-            min-height: 1.2em;
+            margin-top: 2px;
         }
+
+        #save-status { font-size: 0.85em; color: #888; margin-top: 4px; min-height: 1.2em; }
         hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }
     </style>
 </head>
 <body>
     <h1>McGill Degree Planner</h1>
 
-    <!-- Major selector -->
     <div class="section-label">Your Major</div>
     <div class="row">
         <select id="major-select" onchange="changeMajor()">
@@ -90,14 +125,11 @@
 
     <hr>
 
-    <!-- Profile management -->
     <div class="section-label">Profiles</div>
-
     <div class="row">
         <input type="text" id="profile-name-input" placeholder="Profile name (e.g. Double Major Plan)">
         <button class="btn-red" onclick="saveProfile()">Save</button>
     </div>
-
     <div class="row">
         <select id="profile-select">
             <option value="">-- Load a saved profile --</option>
@@ -105,25 +137,42 @@
         <button class="btn-grey" onclick="loadProfile()">Load</button>
         <button class="btn-grey" onclick="deleteProfile()">Delete</button>
     </div>
-
     <div id="save-status"></div>
 
     <hr>
 
-    <!-- Course list -->
     <h2 id="major-title"></h2>
     <div id="course-list"></div>
-    <div id="summary"></div>
+
+    <!-- Progress bar -->
+    <div id="progress-container">
+        <div id="progress-bar-track">
+            <div id="progress-bar-fill"></div>
+        </div>
+        <div id="summary"></div>
+    </div>
+
+    <!-- GPA -->
+    <div id="gpa-container">
+        <div id="gpa-display">—</div>
+        <div id="gpa-label">Cumulative GPA (McGill scale) — enter grades on completed courses</div>
+    </div>
 
     <script>
         let programs = {};
+
+        const GRADES = {
+            'A':  4.0, 'A-': 3.7,
+            'B+': 3.3, 'B':  3.0, 'B-': 2.7,
+            'C+': 2.3, 'C':  2.0,
+            'D':  1.0, 'F':  0.0
+        };
 
         // ── Init ──────────────────────────────────────────────
         async function init() {
             const response = await fetch('data/programs.json');
             programs = await response.json();
 
-            // Populate major dropdown
             const select = document.getElementById('major-select');
             for (const key in programs) {
                 const option = document.createElement('option');
@@ -132,35 +181,44 @@
                 select.appendChild(option);
             }
 
-            // Restore last session
             const savedMajor = localStorage.getItem('mcgill-major');
             if (savedMajor) {
                 select.value = savedMajor;
-                changeMajor(false); // render courses without clearing saved checks
+                changeMajor(false);
 
                 const savedChecked = JSON.parse(localStorage.getItem('mcgill-checked') || '[]');
+                const savedGrades = JSON.parse(localStorage.getItem('mcgill-grades') || '{}');
+
                 document.querySelectorAll('input[type="checkbox"]').forEach(box => {
-                    if (savedChecked.includes(box.dataset.code)) box.checked = true;
+                    if (savedChecked.includes(box.dataset.code)) {
+                        box.checked = true;
+                        const gradeEl = box.closest('.course').querySelector('.grade-select');
+                        gradeEl.style.display = 'inline-block';
+                        if (savedGrades[box.dataset.code]) {
+                            gradeEl.value = savedGrades[box.dataset.code];
+                        }
+                    }
                 });
-                updateCredits();
+                updateAll();
             }
 
             refreshProfileDropdown();
         }
 
-        // ── Major change ──────────────────────────────────────
+        // ── Render courses ────────────────────────────────────
         function changeMajor(clearChecks = true) {
             const key = document.getElementById('major-select').value;
             const courseList = document.getElementById('course-list');
             const title = document.getElementById('major-title');
-            const summary = document.getElementById('summary');
 
             if (!key) {
                 title.textContent = '';
                 courseList.innerHTML = '';
-                summary.textContent = '';
+                document.getElementById('progress-container').style.display = 'none';
+                document.getElementById('gpa-container').style.display = 'none';
                 localStorage.removeItem('mcgill-major');
                 localStorage.removeItem('mcgill-checked');
+                localStorage.removeItem('mcgill-grades');
                 return;
             }
 
@@ -171,71 +229,132 @@
             program.courses.forEach(course => {
                 const div = document.createElement('div');
                 div.className = 'course';
+
+                // Build grade options
+                const gradeOptions = Object.keys(GRADES)
+                    .map(g => `<option value="${g}">${g}</option>`)
+                    .join('');
+
                 div.innerHTML = `
                     <input type="checkbox"
                         data-credits="${course.credits}"
                         data-code="${course.code}"
-                        onchange="onCheck()">
-                    <span>${course.code} — ${course.name}</span>
-                    <span class="credits">${course.credits} credits</span>
+                        onchange="onCheck(this)">
+                    <div class="course-info">
+                        <span>${course.code} — ${course.name}</span>
+                    </div>
+                    <select class="grade-select" onchange="onGradeChange()">
+                        <option value="">Grade</option>
+                        ${gradeOptions}
+                    </select>
+                    <span class="credits">${course.credits} cr</span>
                 `;
                 courseList.appendChild(div);
             });
 
+            document.getElementById('progress-container').style.display = 'block';
+            document.getElementById('gpa-container').style.display = 'block';
+
             if (clearChecks) {
                 localStorage.setItem('mcgill-major', key);
                 localStorage.setItem('mcgill-checked', JSON.stringify([]));
+                localStorage.setItem('mcgill-grades', JSON.stringify({}));
             }
 
-            updateCredits();
+            updateAll();
         }
 
-        // ── Checkbox change ───────────────────────────────────
-        function onCheck() {
+        // ── Checkbox + grade changes ──────────────────────────
+        function onCheck(box) {
+            const gradeEl = box.closest('.course').querySelector('.grade-select');
+            gradeEl.style.display = box.checked ? 'inline-block' : 'none';
+            if (!box.checked) gradeEl.value = '';
             autoSave();
-            updateCredits();
+            updateAll();
         }
 
-        function autoSave() {
-            const key = document.getElementById('major-select').value;
-            if (!key) return;
-            const checked = getCheckedCodes();
-            localStorage.setItem('mcgill-major', key);
-            localStorage.setItem('mcgill-checked', JSON.stringify(checked));
+        function onGradeChange() {
+            autoSave();
+            updateAll();
         }
 
-        function getCheckedCodes() {
-            const checked = [];
-            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
-                if (box.checked) checked.push(box.dataset.code);
-            });
-            return checked;
+        // ── Update progress + GPA ─────────────────────────────
+        function updateAll() {
+            updateProgress();
+            updateGPA();
         }
 
-        // ── Credits display ───────────────────────────────────
-        function updateCredits() {
+        function updateProgress() {
             const key = document.getElementById('major-select').value;
             if (!key) return;
 
             let completed = 0;
-            let listed = 0;
             document.querySelectorAll('input[type="checkbox"]').forEach(box => {
-                const credits = parseInt(box.dataset.credits);
-                listed += credits;
-                if (box.checked) completed += credits;
+                if (box.checked) completed += parseInt(box.dataset.credits);
             });
 
             const total = programs[key].totalRequired;
             const percent = Math.round((completed / total) * 100);
+
+            document.getElementById('progress-bar-fill').style.width = percent + '%';
             document.getElementById('summary').textContent =
-                `Credits completed: ${completed} / ${total} required (${percent}%) — showing ${listed} of ${total} credits`;
+                `${completed} / ${total} required credits completed (${percent}%)`;
+        }
+
+        function updateGPA() {
+            let totalPoints = 0;
+            let totalCredits = 0;
+
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                if (!box.checked) return;
+                const gradeEl = box.closest('.course').querySelector('.grade-select');
+                const grade = gradeEl.value;
+                if (!grade) return;
+                const credits = parseInt(box.dataset.credits);
+                totalPoints += GRADES[grade] * credits;
+                totalCredits += credits;
+            });
+
+            const gpaDisplay = document.getElementById('gpa-display');
+            if (totalCredits === 0) {
+                gpaDisplay.textContent = '—';
+            } else {
+                gpaDisplay.textContent = (totalPoints / totalCredits).toFixed(2) + ' / 4.00';
+            }
+        }
+
+        // ── Auto-save ─────────────────────────────────────────
+        function autoSave() {
+            const key = document.getElementById('major-select').value;
+            if (!key) return;
+
+            const checked = [];
+            const grades = {};
+
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                if (box.checked) {
+                    checked.push(box.dataset.code);
+                    const grade = box.closest('.course').querySelector('.grade-select').value;
+                    if (grade) grades[box.dataset.code] = grade;
+                }
+            });
+
+            localStorage.setItem('mcgill-major', key);
+            localStorage.setItem('mcgill-checked', JSON.stringify(checked));
+            localStorage.setItem('mcgill-grades', JSON.stringify(grades));
         }
 
         // ── Clear ─────────────────────────────────────────────
         function clearCurrent() {
-            document.querySelectorAll('input[type="checkbox"]').forEach(box => box.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                box.checked = false;
+                const gradeEl = box.closest('.course').querySelector('.grade-select');
+                gradeEl.style.display = 'none';
+                gradeEl.value = '';
+            });
             localStorage.setItem('mcgill-checked', JSON.stringify([]));
-            updateCredits();
+            localStorage.setItem('mcgill-grades', JSON.stringify({}));
+            updateAll();
         }
 
         // ── Profiles ──────────────────────────────────────────
@@ -246,15 +365,21 @@
         function saveProfile() {
             const name = document.getElementById('profile-name-input').value.trim();
             const key = document.getElementById('major-select').value;
-
             if (!name) { setStatus('Enter a profile name first.'); return; }
             if (!key) { setStatus('Select a major before saving.'); return; }
 
+            const checked = [];
+            const grades = {};
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                if (box.checked) {
+                    checked.push(box.dataset.code);
+                    const grade = box.closest('.course').querySelector('.grade-select').value;
+                    if (grade) grades[box.dataset.code] = grade;
+                }
+            });
+
             const profiles = getProfiles();
-            profiles[name] = {
-                major: key,
-                checked: getCheckedCodes()
-            };
+            profiles[name] = { major: key, checked, grades };
             localStorage.setItem('mcgill-profiles', JSON.stringify(profiles));
             document.getElementById('profile-name-input').value = '';
             refreshProfileDropdown();
@@ -264,21 +389,22 @@
         function loadProfile() {
             const name = document.getElementById('profile-select').value;
             if (!name) return;
-
             const profiles = getProfiles();
             const profile = profiles[name];
             if (!profile) return;
 
-            // Set major
             document.getElementById('major-select').value = profile.major;
             changeMajor(false);
 
-            // Restore checks
             document.querySelectorAll('input[type="checkbox"]').forEach(box => {
                 box.checked = profile.checked.includes(box.dataset.code);
+                const gradeEl = box.closest('.course').querySelector('.grade-select');
+                gradeEl.style.display = box.checked ? 'inline-block' : 'none';
+                gradeEl.value = box.checked && profile.grades[box.dataset.code]
+                    ? profile.grades[box.dataset.code] : '';
             });
 
-            updateCredits();
+            updateAll();
             autoSave();
             setStatus(`Loaded profile "${name}".`);
         }
@@ -286,7 +412,6 @@
         function deleteProfile() {
             const name = document.getElementById('profile-select').value;
             if (!name) { setStatus('Select a profile to delete.'); return; }
-
             const profiles = getProfiles();
             delete profiles[name];
             localStorage.setItem('mcgill-profiles', JSON.stringify(profiles));
