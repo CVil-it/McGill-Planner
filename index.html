@@ -11,11 +11,44 @@
             padding: 0 20px;
         }
         h1 { color: #ED1B2F; }
-        select {
+        select, input[type="text"] {
             font-size: 1em;
             padding: 8px 12px;
-            margin-bottom: 24px;
             width: 100%;
+            box-sizing: border-box;
+        }
+        .row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        .row select, .row input {
+            flex: 1;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 0.95em;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .btn-red {
+            background: #ED1B2F;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        .btn-grey {
+            background: #eee;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .section-label {
+            font-size: 0.8em;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 20px 0 6px;
         }
         .course {
             display: flex;
@@ -34,15 +67,49 @@
             font-size: 1.1em;
             font-weight: bold;
         }
+        #save-status {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 4px;
+            min-height: 1.2em;
+        }
+        hr { border: none; border-top: 1px solid #ddd; margin: 24px 0; }
     </style>
 </head>
 <body>
     <h1>McGill Degree Planner</h1>
 
-    <select id="major-select" onchange="changeMajor()">
-        <option value="">-- Select your major --</option>
-    </select>
+    <!-- Major selector -->
+    <div class="section-label">Your Major</div>
+    <div class="row">
+        <select id="major-select" onchange="changeMajor()">
+            <option value="">-- Select your major --</option>
+        </select>
+        <button class="btn-grey" onclick="clearCurrent()">Clear</button>
+    </div>
 
+    <hr>
+
+    <!-- Profile management -->
+    <div class="section-label">Profiles</div>
+
+    <div class="row">
+        <input type="text" id="profile-name-input" placeholder="Profile name (e.g. Double Major Plan)">
+        <button class="btn-red" onclick="saveProfile()">Save</button>
+    </div>
+
+    <div class="row">
+        <select id="profile-select" onchange="loadProfile()">
+            <option value="">-- Load a saved profile --</option>
+        </select>
+        <button class="btn-grey" onclick="deleteProfile()">Delete</button>
+    </div>
+
+    <div id="save-status"></div>
+
+    <hr>
+
+    <!-- Course list -->
     <h2 id="major-title"></h2>
     <div id="course-list"></div>
     <div id="summary"></div>
@@ -50,11 +117,12 @@
     <script>
         let programs = {};
 
-        // When the page loads, fetch the JSON file and populate the dropdown
+        // ── Init ──────────────────────────────────────────────
         async function init() {
             const response = await fetch('data/programs.json');
             programs = await response.json();
 
+            // Populate major dropdown
             const select = document.getElementById('major-select');
             for (const key in programs) {
                 const option = document.createElement('option');
@@ -62,9 +130,25 @@
                 option.textContent = programs[key].name;
                 select.appendChild(option);
             }
+
+            // Restore last session
+            const savedMajor = localStorage.getItem('mcgill-major');
+            if (savedMajor) {
+                select.value = savedMajor;
+                changeMajor(false); // render courses without clearing saved checks
+
+                const savedChecked = JSON.parse(localStorage.getItem('mcgill-checked') || '[]');
+                document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                    if (savedChecked.includes(box.dataset.code)) box.checked = true;
+                });
+                updateCredits();
+            }
+
+            refreshProfileDropdown();
         }
 
-        function changeMajor() {
+        // ── Major change ──────────────────────────────────────
+        function changeMajor(clearChecks = true) {
             const key = document.getElementById('major-select').value;
             const courseList = document.getElementById('course-list');
             const title = document.getElementById('major-title');
@@ -74,6 +158,8 @@
                 title.textContent = '';
                 courseList.innerHTML = '';
                 summary.textContent = '';
+                localStorage.removeItem('mcgill-major');
+                localStorage.removeItem('mcgill-checked');
                 return;
             }
 
@@ -85,24 +171,54 @@
                 const div = document.createElement('div');
                 div.className = 'course';
                 div.innerHTML = `
-                    <input type="checkbox" data-credits="${course.credits}" onchange="updateCredits()">
+                    <input type="checkbox"
+                        data-credits="${course.credits}"
+                        data-code="${course.code}"
+                        onchange="onCheck()">
                     <span>${course.code} — ${course.name}</span>
                     <span class="credits">${course.credits} credits</span>
                 `;
                 courseList.appendChild(div);
             });
 
+            if (clearChecks) {
+                localStorage.setItem('mcgill-major', key);
+                localStorage.setItem('mcgill-checked', JSON.stringify([]));
+            }
+
             updateCredits();
         }
 
+        // ── Checkbox change ───────────────────────────────────
+        function onCheck() {
+            autoSave();
+            updateCredits();
+        }
+
+        function autoSave() {
+            const key = document.getElementById('major-select').value;
+            if (!key) return;
+            const checked = getCheckedCodes();
+            localStorage.setItem('mcgill-major', key);
+            localStorage.setItem('mcgill-checked', JSON.stringify(checked));
+        }
+
+        function getCheckedCodes() {
+            const checked = [];
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                if (box.checked) checked.push(box.dataset.code);
+            });
+            return checked;
+        }
+
+        // ── Credits display ───────────────────────────────────
         function updateCredits() {
             const key = document.getElementById('major-select').value;
             if (!key) return;
 
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             let completed = 0;
             let listed = 0;
-            checkboxes.forEach(box => {
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
                 const credits = parseInt(box.dataset.credits);
                 listed += credits;
                 if (box.checked) completed += credits;
@@ -112,6 +228,87 @@
             const percent = Math.round((completed / total) * 100);
             document.getElementById('summary').textContent =
                 `Credits completed: ${completed} / ${total} required (${percent}%) — showing ${listed} of ${total} credits`;
+        }
+
+        // ── Clear ─────────────────────────────────────────────
+        function clearCurrent() {
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => box.checked = false);
+            localStorage.setItem('mcgill-checked', JSON.stringify([]));
+            updateCredits();
+        }
+
+        // ── Profiles ──────────────────────────────────────────
+        function getProfiles() {
+            return JSON.parse(localStorage.getItem('mcgill-profiles') || '{}');
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('profile-name-input').value.trim();
+            const key = document.getElementById('major-select').value;
+
+            if (!name) { setStatus('Enter a profile name first.'); return; }
+            if (!key) { setStatus('Select a major before saving.'); return; }
+
+            const profiles = getProfiles();
+            profiles[name] = {
+                major: key,
+                checked: getCheckedCodes()
+            };
+            localStorage.setItem('mcgill-profiles', JSON.stringify(profiles));
+            document.getElementById('profile-name-input').value = '';
+            refreshProfileDropdown();
+            setStatus(`Profile "${name}" saved.`);
+        }
+
+        function loadProfile() {
+            const name = document.getElementById('profile-select').value;
+            if (!name) return;
+
+            const profiles = getProfiles();
+            const profile = profiles[name];
+            if (!profile) return;
+
+            // Set major
+            document.getElementById('major-select').value = profile.major;
+            changeMajor(false);
+
+            // Restore checks
+            document.querySelectorAll('input[type="checkbox"]').forEach(box => {
+                box.checked = profile.checked.includes(box.dataset.code);
+            });
+
+            updateCredits();
+            autoSave();
+            setStatus(`Loaded profile "${name}".`);
+        }
+
+        function deleteProfile() {
+            const name = document.getElementById('profile-select').value;
+            if (!name) { setStatus('Select a profile to delete.'); return; }
+
+            const profiles = getProfiles();
+            delete profiles[name];
+            localStorage.setItem('mcgill-profiles', JSON.stringify(profiles));
+            refreshProfileDropdown();
+            setStatus(`Profile "${name}" deleted.`);
+        }
+
+        function refreshProfileDropdown() {
+            const select = document.getElementById('profile-select');
+            const profiles = getProfiles();
+            select.innerHTML = '<option value="">-- Load a saved profile --</option>';
+            for (const name in profiles) {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = `${name} (${programs[profiles[name].major]?.name || profiles[name].major})`;
+                select.appendChild(option);
+            }
+        }
+
+        function setStatus(msg) {
+            const el = document.getElementById('save-status');
+            el.textContent = msg;
+            setTimeout(() => el.textContent = '', 3000);
         }
 
         init();
