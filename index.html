@@ -127,12 +127,12 @@
 
     <div class="section-label">Profiles</div>
     <div class="row">
-        <input type="text" id="profile-name-input" placeholder="Profile name (e.g. Double Major Plan)">
+        <input type="text" id="profile-name-input" placeholder="Profile name (e.g. CS Major Plan)">
         <button class="btn-red" onclick="saveProfile()">Save</button>
     </div>
     <div class="row">
         <select id="profile-select">
-            <option value="">-- Load a saved profile --</option>
+            <option value="">-- Load a profile --</option>
         </select>
         <button class="btn-grey" onclick="loadProfile()">Load</button>
         <button class="btn-grey" onclick="deleteProfile()">Delete</button>
@@ -155,7 +155,7 @@
     <!-- GPA -->
     <div id="gpa-container">
         <div id="gpa-display">—</div>
-        <div id="gpa-label">Cumulative GPA (McGill scale) — enter grades on completed courses</div>
+        <div id="gpa-label">Cumulative GPA (McGill scale) — enter grades on checked courses</div>
     </div>
 
     <script>
