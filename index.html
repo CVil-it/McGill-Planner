@@ -41,9 +41,6 @@
 
     <select id="major-select" onchange="changeMajor()">
         <option value="">-- Select your major --</option>
-        <option value="cs">Computer Science (BSc)</option>
-        <option value="math">Mathematics (BSc)</option>
-        <option value="biology">Biology (BSc)</option>
     </select>
 
     <h2 id="major-title"></h2>
@@ -51,50 +48,21 @@
     <div id="summary"></div>
 
     <script>
-        const majors = {
-            cs: {
-                name: "Computer Science — Required Courses",
-                totalRequired: 63,
-                courses: [
-                    { code: "COMP 202", name: "Foundations of Programming", credits: 3 },
-                    { code: "COMP 250", name: "Introduction to Computer Science", credits: 3 },
-                    { code: "COMP 251", name: "Algorithms and Data Structures", credits: 3 },
-                    { code: "COMP 273", name: "Introduction to Computer Systems", credits: 3 },
-                    { code: "COMP 302", name: "Programming Languages and Paradigms", credits: 3 },
-                    { code: "COMP 310", name: "Operating Systems", credits: 3 },
-                    { code: "COMP 330", name: "Theory of Computation", credits: 3 },
-                    { code: "COMP 360", name: "Algorithm Design", credits: 3 },
-                ]
-            },
-            math: {
-                name: "Mathematics — Required Courses",
-                totalRequired: 60,
-                courses: [
-                    { code: "MATH 133", name: "Linear Algebra and Geometry", credits: 3 },
-                    { code: "MATH 141", name: "Calculus 2", credits: 4 },
-                    { code: "MATH 222", name: "Calculus 3", credits: 3 },
-                    { code: "MATH 235", name: "Algebra 1", credits: 3 },
-                    { code: "MATH 251", name: "Honours Algebra 2", credits: 3 },
-                    { code: "MATH 255", name: "Honours Analysis 1", credits: 3 },
-                    { code: "MATH 325", name: "Ordinary Differential Equations", credits: 3 },
-                    { code: "MATH 356", name: "Honours Probability", credits: 3 },
-                ]
-            },
-            biology: {
-                name: "Biology — Required Courses",
-                totalRequired: 60,
-                courses: [
-                    { code: "BIOL 112", name: "Cell and Molecular Biology", credits: 3 },
-                    { code: "BIOL 200", name: "Molecular Biology", credits: 3 },
-                    { code: "BIOL 201", name: "Cell Biology and Metabolism", credits: 3 },
-                    { code: "BIOL 202", name: "Basic Genetics", credits: 3 },
-                    { code: "CHEM 110", name: "General Chemistry 1", credits: 3 },
-                    { code: "CHEM 120", name: "General Chemistry 2", credits: 3 },
-                    { code: "PHYS 101", name: "Introductory Physics", credits: 3 },
-                    { code: "BIOL 300", name: "Biostatistics", credits: 3 },
-                ]
+        let programs = {};
+
+        // When the page loads, fetch the JSON file and populate the dropdown
+        async function init() {
+            const response = await fetch('data/programs.json');
+            programs = await response.json();
+
+            const select = document.getElementById('major-select');
+            for (const key in programs) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = programs[key].name;
+                select.appendChild(option);
             }
-        };
+        }
 
         function changeMajor() {
             const key = document.getElementById('major-select').value;
@@ -109,11 +77,11 @@
                 return;
             }
 
-            const major = majors[key];
-            title.textContent = major.name;
+            const program = programs[key];
+            title.textContent = program.name + ' — Required Courses';
             courseList.innerHTML = '';
 
-            major.courses.forEach(course => {
+            program.courses.forEach(course => {
                 const div = document.createElement('div');
                 div.className = 'course';
                 div.innerHTML = `
@@ -140,11 +108,13 @@
                 if (box.checked) completed += credits;
             });
 
-            const total = majors[key].totalRequired;
+            const total = programs[key].totalRequired;
             const percent = Math.round((completed / total) * 100);
             document.getElementById('summary').textContent =
                 `Credits completed: ${completed} / ${total} required (${percent}%) — showing ${listed} of ${total} credits`;
         }
+
+        init();
     </script>
 </body>
 </html>
