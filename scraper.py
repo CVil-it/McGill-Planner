@@ -46,48 +46,22 @@ def scrape_program(page, url):
 
     return courses
 
+with open("data/programs_list.json") as f:
+    programs_list = json.load(f)
+
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.new_page()
 
-    programs = {
-        "cs_major": {
-            "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/computer-science/computer-science-major-bsc/",
-            "name": "Computer Science Major (B.Sc.)",
-            "totalRequired": 63
-        },
-        "cs_honours": {
-            "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/computer-science/computer-science-honours-bsc/",
-            "name": "Computer Science Honours (B.Sc.)",
-            "totalRequired": 75
-        },
-        "biology_major": {
-            "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/biology/biology-major-bsc/",
-            "name": "Biology Major (B.Sc.)",
-            "totalRequired": 59
-        },
-        "chemistry_major": {
-            "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/chemistry/chemistry-major-bsc/",
-            "name": "Chemistry Major (B.Sc.)",
-            "totalRequired": 59
-        },
-        "psychology_major": {
-            "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/psychology/psychology-major-bsc/",
-            "name": "Psychology Major (B.Sc.)",
-            "totalRequired": 54
-        }
-    }
-
     result = {}
-    for key, info in programs.items():
-        print(f"Scraping {info['name']}...")
-        courses = scrape_program(page, info["url"])
+    for program in programs_list:
+        print(f"Scraping {program['name']}...")
+        courses = scrape_program(page, program["url"])
         print(f"  Found {len(courses)} courses")
-        for c in courses:
-            print(f"  {c}")
-        result[key] = {
-            "name": info["name"],
-            "totalRequired": info["totalRequired"],
+        result[program["key"]] = {
+            "name": program["name"],
+            "totalRequired": program["totalRequired"],
+            "faculty": program["faculty"],
             "courses": courses
         }
 

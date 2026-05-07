@@ -2,6 +2,7 @@
   "cs_major": {
     "name": "Computer Science Major (B.Sc.)",
     "totalRequired": 63,
+    "faculty": "Science",
     "courses": [
       {
         "code": "COMP 202",
@@ -98,6 +99,7 @@
   "cs_honours": {
     "name": "Computer Science Honours (B.Sc.)",
     "totalRequired": 75,
+    "faculty": "Science",
     "courses": [
       {
         "code": "COMP 202",
@@ -204,6 +206,7 @@
   "biology_major": {
     "name": "Biology Major (B.Sc.)",
     "totalRequired": 59,
+    "faculty": "Science",
     "courses": [
       {
         "code": "BIOL 200",
@@ -310,6 +313,7 @@
   "chemistry_major": {
     "name": "Chemistry Major (B.Sc.)",
     "totalRequired": 59,
+    "faculty": "Science",
     "courses": [
       {
         "code": "CHEM 213",
@@ -406,6 +410,7 @@
   "psychology_major": {
     "name": "Psychology Major (B.Sc.)",
     "totalRequired": 54,
+    "faculty": "Science",
     "courses": [
       {
         "code": "PSYC 100",

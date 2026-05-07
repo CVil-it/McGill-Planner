@@ -1,0 +1,37 @@
+[
+  {
+    "key": "cs_major",
+    "name": "Computer Science Major (B.Sc.)",
+    "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/computer-science/computer-science-major-bsc/",
+    "totalRequired": 63,
+    "faculty": "Science"
+  },
+  {
+    "key": "cs_honours",
+    "name": "Computer Science Honours (B.Sc.)",
+    "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/computer-science/computer-science-honours-bsc/",
+    "totalRequired": 75,
+    "faculty": "Science"
+  },
+  {
+    "key": "biology_major",
+    "name": "Biology Major (B.Sc.)",
+    "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/biology/biology-major-bsc/",
+    "totalRequired": 59,
+    "faculty": "Science"
+  },
+  {
+    "key": "chemistry_major",
+    "name": "Chemistry Major (B.Sc.)",
+    "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/chemistry/chemistry-major-bsc/",
+    "totalRequired": 59,
+    "faculty": "Science"
+  },
+  {
+    "key": "psychology_major",
+    "name": "Psychology Major (B.Sc.)",
+    "url": "https://coursecatalogue.mcgill.ca/en/undergraduate/science/programs/psychology/psychology-major-bsc/",
+    "totalRequired": 54,
+    "faculty": "Science"
+  }
+]
