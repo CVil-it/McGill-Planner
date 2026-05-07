@@ -1,47 +1,807 @@
 {
-  "cs": {
-    "name": "Computer Science (BSc)",
-    "faculty": "Science",
+  "cs_major": {
+    "name": "Computer Science Major (B.Sc.)",
     "totalRequired": 63,
     "courses": [
-      { "code": "COMP 202", "name": "Foundations of Programming", "credits": 3 },
-      { "code": "COMP 250", "name": "Introduction to Computer Science", "credits": 3 },
-      { "code": "COMP 251", "name": "Algorithms and Data Structures", "credits": 3 },
-      { "code": "COMP 273", "name": "Introduction to Computer Systems", "credits": 3 },
-      { "code": "COMP 302", "name": "Programming Languages and Paradigms", "credits": 3 },
-      { "code": "COMP 310", "name": "Operating Systems", "credits": 3 },
-      { "code": "COMP 330", "name": "Theory of Computation", "credits": 3 },
-      { "code": "COMP 360", "name": "Algorithm Design", "credits": 3 }
+      {
+        "code": "COMP 202",
+        "name": "Foundations of Programming",
+        "credits": 3
+      },
+      {
+        "code": "COMP 206",
+        "name": "Introduction to Software Systems",
+        "credits": 3
+      },
+      {
+        "code": "COMP 250",
+        "name": "Introduction to Computer Science",
+        "credits": 3
+      },
+      {
+        "code": "COMP 251",
+        "name": "Algorithms and Data Structures",
+        "credits": 3
+      },
+      {
+        "code": "COMP 273",
+        "name": "Introduction to Computer Systems",
+        "credits": 3
+      },
+      {
+        "code": "COMP 302",
+        "name": "Programming Languages and Paradigms",
+        "credits": 3
+      },
+      {
+        "code": "COMP 303",
+        "name": "Software Design",
+        "credits": 3
+      },
+      {
+        "code": "COMP 310",
+        "name": "Operating Systems",
+        "credits": 3
+      },
+      {
+        "code": "MATH 222",
+        "name": "Calculus 3",
+        "credits": 3
+      },
+      {
+        "code": "MATH 223",
+        "name": "Linear Algebra",
+        "credits": 3
+      },
+      {
+        "code": "MATH 240",
+        "name": "Discrete Structures",
+        "credits": 3
+      },
+      {
+        "code": "COMP 330",
+        "name": "Theory of Computation",
+        "credits": 3
+      },
+      {
+        "code": "COMP 350",
+        "name": "Numerical Computing",
+        "credits": 3
+      },
+      {
+        "code": "COMP 360",
+        "name": "Algorithm Design",
+        "credits": 3
+      },
+      {
+        "code": "MATH 318",
+        "name": "Mathematical Logic",
+        "credits": 3
+      },
+      {
+        "code": "MATH 323",
+        "name": "Probability",
+        "credits": 3
+      },
+      {
+        "code": "MATH 324",
+        "name": "Statistics",
+        "credits": 3
+      },
+      {
+        "code": "MATH 340",
+        "name": "Discrete Mathematics",
+        "credits": 3
+      }
     ]
   },
-  "math": {
-    "name": "Mathematics (BSc)",
-    "faculty": "Science",
-    "totalRequired": 60,
+  "cs_honours": {
+    "name": "Computer Science Honours (B.Sc.)",
+    "totalRequired": 75,
     "courses": [
-      { "code": "MATH 133", "name": "Linear Algebra and Geometry", "credits": 3 },
-      { "code": "MATH 141", "name": "Calculus 2", "credits": 4 },
-      { "code": "MATH 222", "name": "Calculus 3", "credits": 3 },
-      { "code": "MATH 235", "name": "Algebra 1", "credits": 3 },
-      { "code": "MATH 251", "name": "Honours Algebra 2", "credits": 3 },
-      { "code": "MATH 255", "name": "Honours Analysis 1", "credits": 3 },
-      { "code": "MATH 325", "name": "Ordinary Differential Equations", "credits": 3 },
-      { "code": "MATH 356", "name": "Honours Probability", "credits": 3 }
+      {
+        "code": "COMP 202",
+        "name": "Foundations of Programming",
+        "credits": 3
+      },
+      {
+        "code": "COMP 206",
+        "name": "Introduction to Software Systems",
+        "credits": 3
+      },
+      {
+        "code": "COMP 250",
+        "name": "Introduction to Computer Science",
+        "credits": 3
+      },
+      {
+        "code": "COMP 252",
+        "name": "Honours Algorithms and Data Structures",
+        "credits": 3
+      },
+      {
+        "code": "COMP 273",
+        "name": "Introduction to Computer Systems",
+        "credits": 3
+      },
+      {
+        "code": "COMP 302",
+        "name": "Programming Languages and Paradigms",
+        "credits": 3
+      },
+      {
+        "code": "COMP 303",
+        "name": "Software Design",
+        "credits": 3
+      },
+      {
+        "code": "COMP 310",
+        "name": "Operating Systems",
+        "credits": 3
+      },
+      {
+        "code": "COMP 330",
+        "name": "Theory of Computation",
+        "credits": 3
+      },
+      {
+        "code": "COMP 350",
+        "name": "Numerical Computing",
+        "credits": 3
+      },
+      {
+        "code": "COMP 362",
+        "name": "Honours Algorithm Design",
+        "credits": 3
+      },
+      {
+        "code": "COMP 400",
+        "name": "Project in Computer Science",
+        "credits": 4
+      },
+      {
+        "code": "MATH 222",
+        "name": "Calculus 3",
+        "credits": 3
+      },
+      {
+        "code": "MATH 223",
+        "name": "Linear Algebra",
+        "credits": 3
+      },
+      {
+        "code": "MATH 240",
+        "name": "Discrete Structures",
+        "credits": 3
+      },
+      {
+        "code": "MATH 340",
+        "name": "Discrete Mathematics",
+        "credits": 3
+      },
+      {
+        "code": "MATH 350",
+        "name": "Honours Discrete Mathematics ",
+        "credits": 3
+      },
+      {
+        "code": "MATH 318",
+        "name": "Mathematical Logic",
+        "credits": 3
+      },
+      {
+        "code": "MATH 323",
+        "name": "Probability",
+        "credits": 3
+      },
+      {
+        "code": "MATH 324",
+        "name": "Statistics",
+        "credits": 3
+      }
     ]
   },
-  "biology": {
-    "name": "Biology (BSc)",
-    "faculty": "Science",
-    "totalRequired": 60,
+  "biology_major": {
+    "name": "Biology Major (B.Sc.)",
+    "totalRequired": 59,
     "courses": [
-      { "code": "BIOL 112", "name": "Cell and Molecular Biology", "credits": 3 },
-      { "code": "BIOL 200", "name": "Molecular Biology", "credits": 3 },
-      { "code": "BIOL 201", "name": "Cell Biology and Metabolism", "credits": 3 },
-      { "code": "BIOL 202", "name": "Basic Genetics", "credits": 3 },
-      { "code": "CHEM 110", "name": "General Chemistry 1", "credits": 3 },
-      { "code": "CHEM 120", "name": "General Chemistry 2", "credits": 3 },
-      { "code": "PHYS 101", "name": "Introductory Physics", "credits": 3 },
-      { "code": "BIOL 300", "name": "Biostatistics", "credits": 3 }
+      {
+        "code": "BIOL 200",
+        "name": "Molecular Biology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 201",
+        "name": "Cell Biology and Metabolism",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 205",
+        "name": "Functional Biology of Plants and Animals",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 206",
+        "name": "Methods in Biology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 215",
+        "name": "Introduction to Ecology and Evolution",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 216",
+        "name": "Biology of Behaviour",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 301",
+        "name": "Cell and Molecular Laboratory",
+        "credits": 4
+      },
+      {
+        "code": "BIOL 302",
+        "name": "Fundamentals of Genetics and Genomics",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 311",
+        "name": "Advanced Methods in Organismal Biology",
+        "credits": 3
+      },
+      {
+        "code": "COMP 204",
+        "name": "Computer Programming for Life Sciences",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 204",
+        "name": "Physical Chemistry/Biological Sciences 1",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 212",
+        "name": "Introductory Organic Chemistry 1",
+        "credits": 4
+      },
+      {
+        "code": "BIOL 304",
+        "name": "Evolution",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 305",
+        "name": "Animal Diversity",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 308",
+        "name": "Ecological Dynamics",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 300",
+        "name": "Molecular Biology of the Gene",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 303",
+        "name": "Developmental Biology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 313",
+        "name": "Eukaryotic Cell Biology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 306",
+        "name": "Neural Basis of Behaviour",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 307",
+        "name": "Behavioural Ecology",
+        "credits": 3
+      }
+    ]
+  },
+  "chemistry_major": {
+    "name": "Chemistry Major (B.Sc.)",
+    "totalRequired": 59,
+    "courses": [
+      {
+        "code": "CHEM 213",
+        "name": "Introductory Physical Chemistry 1: Thermodynamics",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 242",
+        "name": "Organic Chemistry 1 for Chemistry and Biochemistry",
+        "credits": 4
+      },
+      {
+        "code": "CHEM 252",
+        "name": "Organic Chemistry 2 for Chemistry and Biochemistry",
+        "credits": 4
+      },
+      {
+        "code": "CHEM 267",
+        "name": "Introductory Chemical Analysis",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 273",
+        "name": "Introductory Physical Chemistry 2: Kinetics and Methods",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 281",
+        "name": "Inorganic Chemistry 1",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 302",
+        "name": "Introductory Organic Chemistry 3",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 332",
+        "name": "Biological Chemistry",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 345",
+        "name": "Introduction to Quantum Chemistry",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 355",
+        "name": "Applications of Quantum Chemistry",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 365",
+        "name": "Statistical Thermodynamics",
+        "credits": 2
+      },
+      {
+        "code": "CHEM 367",
+        "name": "Instrumental Analysis 1",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 377",
+        "name": "Instrumental Analysis 2",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 381",
+        "name": "Inorganic Chemistry 2",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 392",
+        "name": "Experimental Chemistry 1",
+        "credits": 3
+      },
+      {
+        "code": "CHEM 493",
+        "name": "Advanced Physical Chemistry Laboratory",
+        "credits": 2
+      },
+      {
+        "code": "MATH 222",
+        "name": "Calculus 3",
+        "credits": 3
+      },
+      {
+        "code": "PHYS 242",
+        "name": "Electricity and Magnetism",
+        "credits": 2
+      }
+    ]
+  },
+  "psychology_major": {
+    "name": "Psychology Major (B.Sc.)",
+    "totalRequired": 54,
+    "courses": [
+      {
+        "code": "PSYC 100",
+        "name": "Introduction to Psychology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 111",
+        "name": "Principles: Organismal Biology",
+        "credits": 3
+      },
+      {
+        "code": "BIOL 112",
+        "name": "Cell and Molecular Biology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 204",
+        "name": "Introduction to Psychological Statistics",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 211",
+        "name": "Introductory Behavioural Neuroscience",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 213",
+        "name": "Cognition",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 215",
+        "name": "Social Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 305",
+        "name": "Statistics for Experimental Design",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 302",
+        "name": "Pain",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 306",
+        "name": "Research Methods in Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 310",
+        "name": "Intelligence",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 311",
+        "name": "Human Cognition and the Brain",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 315",
+        "name": "Computational Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 318",
+        "name": "Behavioural Neuroscience 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 319",
+        "name": "Computational Models - Cognition",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 329",
+        "name": "Introduction to Auditory Cognition",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 340",
+        "name": "Psychology of Language",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 341",
+        "name": "The Psychology of Bilingualism",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 342",
+        "name": "Hormones and Behaviour",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 352",
+        "name": "Research Methods and Laboratory in Cognitive Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 353",
+        "name": "Research Methods and Laboratory in Human Perception",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 355",
+        "name": "Research Methods and Laboratory in Electroencephalography",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 403",
+        "name": "Modern Psychology in Historical Perspective",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 406",
+        "name": "Psychological Tests",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 410",
+        "name": "Special Topics in Neuropsychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 413",
+        "name": "Cognitive Development",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 427",
+        "name": "Sensorimotor Neuroscience",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 433",
+        "name": "Cognitive Science",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 439",
+        "name": "Correlational Techniques",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 443",
+        "name": "Affective Neuroscience",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 444",
+        "name": "Sleep Mechanisms and Behaviour",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 470",
+        "name": "Memory and Brain",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 502",
+        "name": "Psychoneuroendocrinology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 506",
+        "name": "Cognitive Neuroscience of Attention",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 513",
+        "name": "Human Decision-Making",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 514",
+        "name": "Neurobiology of Memory",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 526",
+        "name": "Advances in Visual Perception",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 529",
+        "name": "Music Cognition",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 531",
+        "name": "Structural Equation Models",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 537",
+        "name": "Advanced Seminar in Psychology of Language",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 541",
+        "name": "Multilevel Modelling",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 545",
+        "name": "Topics in Language Acquisition",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 560",
+        "name": "Machine Learning Tools in Psychology ",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 562",
+        "name": "Measurement of Psychological Processes",
+        "credits": 3
+      },
+      {
+        "code": "NSCI 201",
+        "name": "Introduction to Neuroscience 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 304",
+        "name": "Child Development",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 309",
+        "name": "Positive Psychology: Science of Well-Being",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 328",
+        "name": "Health Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 331",
+        "name": "Inter-Group Relations",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 332",
+        "name": "Introduction to Personality",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 333",
+        "name": "Personality and Social Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 337",
+        "name": "Introduction to Psychopathology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 339",
+        "name": "Introduction to Applied Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 351",
+        "name": "Research Methods and Laboratory in Social Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 408",
+        "name": "Principles and Applications of Psychotherapy",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 411",
+        "name": "Discrimination & Wellbeing in Marginalized Communities",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 412",
+        "name": "Child Development: Psychopathology ",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 414",
+        "name": "Social Development",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 471",
+        "name": "Human Motivation",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 473",
+        "name": "Social Cognition and the Self",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 474",
+        "name": "Interpersonal Relationships",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 483",
+        "name": "Seminar in Experimental Psychopathology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 491D1",
+        "name": "Advanced Study: Behavioural Disorders",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 491D2",
+        "name": "Advanced Study: Behavioural Disorders",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 507",
+        "name": "Emotions, Stress, and Illness",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 509",
+        "name": "Diverse Clinical Populations",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 512",
+        "name": "Advanced Personality Seminar",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 528",
+        "name": "Vulnerability to Depression and Anxiety",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 535",
+        "name": "Advanced Topics in Social Psychology",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 539",
+        "name": "Advanced Topics in Social Psychology 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 385",
+        "name": "Independent Research Project 1",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 450D1",
+        "name": "Research Project and Seminar",
+        "credits": 4
+      },
+      {
+        "code": "PSYC 450D2",
+        "name": "Research Project and Seminar",
+        "credits": 4
+      },
+      {
+        "code": "PSYC 484D1",
+        "name": "Independent Research Project 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 484D2",
+        "name": "Independent Research Project 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 485",
+        "name": "Independent Research Project 3",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 492",
+        "name": "Special Topics Seminar 1",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 493",
+        "name": "Special Topics Seminar 2",
+        "credits": 3
+      },
+      {
+        "code": "PSYC 499",
+        "name": "Reading Project",
+        "credits": 1
+      }
     ]
   }
 }
